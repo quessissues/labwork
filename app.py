@@ -1,17 +1,16 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # Функция для загрузки данных из Excel-файла
 def load_data(file_name):
     return pd.read_excel(file_name)
 
-# Список файлов для загрузки
-files = [
-    'KGZ-2014.xlsx', 'KGZ-2015.xlsx', 'KGZ-2016.xlsx', 'KGZ-2017.xlsx',
-    'KZ-2014.xlsx', 'KZ-2015.xlsx', 'KZ-2016.xlsx', 'KZ-2017.xlsx',
-    'TJK-2014.xlsx', 'TJK-2015.xlsx', 'TJK-2016.xlsx', 'TJK-2017.xlsx',
-    'UZB-2014.xlsx', 'UZB-2015.xlsx', 'UZB-2016.xlsx', 'UZB-2017.xlsx'
-]
+# Путь к папке, содержащей файлы Excel
+folder_path = 'D:/Lab_12_ex'  # Укажите путь к папке с файлами
+
+# Получаем список всех файлов в папке
+files = [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith('.xlsx')]
 
 # Загрузка данных из всех файлов и объединение их в один датафрейм
 data_frames = [load_data(file) for file in files]
@@ -40,4 +39,3 @@ elif plot_type == 'Линейный график':
     st.line_chart(df[column])
 
 # Можете добавить дополнительные визуализации и элементы пользовательского интерфейса
-
